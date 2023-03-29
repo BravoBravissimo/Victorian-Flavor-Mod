@@ -160,9 +160,12 @@ je_matter_of_norway = {
 
 	fail = {
 		c:NOR = {
-			has_attitude = {
-				who = c:SWE
-				attitude = rebellious
+			OR = { 
+				has_attitude = {
+					who = c:SWE
+					attitude = rebellious
+				}
+				relations:root <= relations_threshold:cold
 			}
 		}
 	}
