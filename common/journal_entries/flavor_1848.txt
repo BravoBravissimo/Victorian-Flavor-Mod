@@ -333,7 +333,7 @@
 			if = {
 				limit = {
 					NOT = { has_variable = springtime_default}
-					in_default = no 
+					in_default = yes 
 				}
 				post_notification = springtime_worsened
 				change_variable = {
