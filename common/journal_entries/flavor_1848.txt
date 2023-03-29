@@ -20,10 +20,14 @@
 			#	country_has_voting_franchise = no
 			#}
 		#}
-
-		NOT = { has_law = law_type:law_census_voting }
-		NOT = { has_law = law_type:law_universal_suffrage }
-
+		OR = {
+			AND = { 
+				NOT = { has_law = law_type:law_census_voting }
+				NOT = { has_law = law_type:law_universal_suffrage }
+			}
+			has_law = law_type:law_serfdom
+		}
+		
 		OR = {
 			any_scope_state = {
 				is_incorporated = yes
@@ -107,6 +111,14 @@
 		random_law = {
 			limit = { type = law_type:law_universal_suffrage }
 			save_scope_as = suffrage_scope
+		}
+		random_law = {
+			limit = { type = law_type:law_serfdom }
+			save_scope_as = serfdom_scope
+		}
+		random_law = {
+			limit = { type = law_type:law_serfdom_banned }
+			save_scope_as = emancipation_scope
 		}
 
 		je:je_1848 = {
@@ -244,6 +256,31 @@
 
 			if = {
 				limit = {
+					NOT = { has_variable = springtime_serfdom }
+					has_law = law_type:law_serfdom
+				}
+				post_notification = springtime_worsened
+				change_variable = {
+					name = springtime_revolt
+					add = 1
+				}
+				set_variable = springtime_serfdom
+			}
+			else_if = {
+				limit = {
+					has_variable = springtime_serfdom
+					NOT = { has_law = law_type:law_serfdom }
+				}
+				post_notification = springtime_bettered
+				change_variable = {
+					name = springtime_revolt
+					subtract = 1
+				}
+				remove_variable = springtime_serfdom
+			}
+
+			if = {
+				limit = {
 					NOT = { has_variable = springtime_outlawed_dissent }
 					has_law = law_type:law_outlawed_dissent
 				}
@@ -335,7 +372,7 @@
 
 			if = {
 				limit = {
-					NOT = { has_variable = springtime_default}
+					NOT = { has_variable = springtime_default }
 					in_default = yes 
 				}
 				post_notification = springtime_worsened
